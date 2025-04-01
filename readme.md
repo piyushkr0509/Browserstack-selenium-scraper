@@ -34,7 +34,7 @@ This project demonstrates skills in
 
 ```
 ├── BrowserStack_selenium.py             # Runs the complete automation in 5 random devices
-├── scraped_articles.json               # (Optional) Local output file if needed
+└── browserstack_runner.py              # (Optional) config for browsestack session
 ├── images/                             # (Optional) Directory to save images locally
 ├── requirements.txt                    # Python dependencies
 └── README.md                           # This file
@@ -46,12 +46,12 @@ This project demonstrates skills in
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/yourusername/browserstack-selenium-scraper.git
+git clone https://github.com/piyushkr0509/Browserstack-selenium-scraper.git
 ```
 
 ### 2. Setup Virtual Environment
 ```bash
-python3 -m venv venv
+python -m venv 
 source venv/bin/activate  # Or venv\Scripts\activate on Windows
 pip install -r requirements.txt
 ```
@@ -75,8 +75,6 @@ python BrowserStack_Selenium.py
 - Windows 11 / Firefox
 - Android 13 / Chrome
 - iOS 17 / Safari (iPhone 15)
-
-> Device/browser combos are randomly selected from a pool of real and virtual environments.
 
 ---
 
