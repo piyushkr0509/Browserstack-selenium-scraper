@@ -10,8 +10,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from googletrans import Translator
 
 # BrowserStack Credentials from Environment Variables
-BROWSERSTACK_USERNAME = 'piyushkumar_iBEo4g'#os.getenv("BROWSERSTACK_USERNAME")
-BROWSERSTACK_ACCESS_KEY = '2z8wDTbS83pbbz27uEZ3'#os.getenv("BROWSERSTACK_ACCESS_KEY")
+BROWSERSTACK_USERNAME = os.getenv("BROWSERSTACK_USERNAME")
+BROWSERSTACK_ACCESS_KEY = os.getenv("BROWSERSTACK_ACCESS_KEY")
 
 translator = Translator()
 OPINION_SECTION = 'https://elpais.com/opinion/?locale=es'  # Spanish locale
