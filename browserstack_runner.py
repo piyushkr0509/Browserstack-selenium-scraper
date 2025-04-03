@@ -1,3 +1,7 @@
+import time
+import threading
+from BrowserStack_Selenium import run_scrape_on_browserstack  # Import scraper function
+
 if __name__ == "__main__":
     BROWSER_CONFIGS = [
         {
