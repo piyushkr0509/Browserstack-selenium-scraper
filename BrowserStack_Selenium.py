@@ -1,7 +1,7 @@
 import os
 import time
-import json
 import threading
+import json
 from collections import Counter
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -9,18 +9,19 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from googletrans import Translator
 
-# BrowserStack Credentials
-BROWSERSTACK_USERNAME = os.getenv("BROWSERSTACK_USERNAME")
-BROWSERSTACK_ACCESS_KEY = os.getenv("BROWSERSTACK_ACCESS_KEY")
+# BrowserStack Credentials from Environment Variables
+BROWSERSTACK_USERNAME = 'piyushkumar_iBEo4g'#os.getenv("BROWSERSTACK_USERNAME")
+BROWSERSTACK_ACCESS_KEY = '2z8wDTbS83pbbz27uEZ3'#os.getenv("BROWSERSTACK_ACCESS_KEY")
 
 translator = Translator()
-OPINION_SECTION = 'https://elpais.com/opinion/?locale=es' #Ensuring locale is spanish
-
+OPINION_SECTION = 'https://elpais.com/opinion/?locale=es'  # Spanish locale
 
 # Common stopwords (to improve word frequency analysis)
 STOPWORDS = {"the", "of", "and", "to", "in", "for", "on", "with", "at", "by", "from", "a", "an", "this", "that", "is"}
 
+
 def setup_browserstack_driver(cap):
+    """Sets up BrowserStack WebDriver with given capabilities."""
     cap['bstack:options'] = {
         "userName": BROWSERSTACK_USERNAME,
         "accessKey": BROWSERSTACK_ACCESS_KEY,
@@ -28,13 +29,14 @@ def setup_browserstack_driver(cap):
         "buildName": "Cross-Browser El Pais Scrape"
     }
 
-    # For mobile devices, use 'browserName' instead of 'browser'
+    # Handle mobile vs. desktop browsers
     if 'device' in cap:
         options = webdriver.ChromeOptions() if cap['browserName'] == 'Chrome' else webdriver.SafariOptions()
     else:
         options = webdriver.ChromeOptions()
-    
+
     options.set_capability('bstack:options', cap['bstack:options'])
+
     return webdriver.Remote(
         command_executor=f'https://{BROWSERSTACK_USERNAME}:{BROWSERSTACK_ACCESS_KEY}@hub-cloud.browserstack.com/wd/hub',
         options=options
@@ -42,7 +44,7 @@ def setup_browserstack_driver(cap):
 
 
 def run_scrape_on_browserstack(cap):
-    """Scrapes articles from El País and analyzes repeated words."""
+    """Scrapes articles from El País and analyzes repeated words on a given browser."""
     driver = setup_browserstack_driver(cap)
     wait = WebDriverWait(driver, 10)
     data = []
@@ -71,7 +73,7 @@ def run_scrape_on_browserstack(cap):
 
     except Exception as e:
         print(f"❌ [{cap['name']}] Failed: {e}")
-    
+
     finally:
         driver.quit()
 
@@ -92,15 +94,8 @@ def run_scrape_on_browserstack(cap):
     for word, freq in word_counter.most_common(5):  # Top 5 repeated words
         print(f"🔁 {word}: {freq}x")
 
-    return data  # Return scraped data if needed
+    # Save data to JSON file
+    with open(f"scraped_data_{cap['name']}.json", "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=4)
 
-# Example Usage (if running standalone)
-if __name__ == "__main__":
-    test_capability = {
-        'os': 'Windows',
-        'os_version': '10',
-        'browser': 'Chrome',
-        'browser_version': 'latest',
-        'name': 'Chrome_Windows'
-    }
-    run_scrape_on_browserstack(test_capability)
+    return data  # Return scraped data if needed
