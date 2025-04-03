@@ -48,7 +48,7 @@ export BROWSERSTACK_ACCESS_KEY=your_browserstack_key
 ```
 ### 4. Run the Scraper on Random Devices
 ```bash
-python BrowserStack_Selenium.py
+python browserstack_runner.py
 ```
 ---
 ## :earth_africa: Test Coverage Matrix (Randomized per Run)
